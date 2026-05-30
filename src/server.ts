@@ -2,11 +2,13 @@ import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
 import config from "./config";
+import userRoute from "./modules/user/user.route";
 
-const app = express()
+const app = express();
 
 app.use(cors())
 app.use(express.json());
+app.use(userRoute)
 
 app.get("/", (req, res) => {
     res.send({success:true, message:"server running"});
