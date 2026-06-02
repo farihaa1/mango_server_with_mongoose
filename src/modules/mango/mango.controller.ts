@@ -123,4 +123,5 @@ export const mangoController = {
     getMango,
     getMangoById,
     updateMango,
+    deleteMango,
 }
