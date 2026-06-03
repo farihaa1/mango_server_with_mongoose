@@ -1,9 +1,10 @@
 import { Request, Response } from "express";
 import Mango from "./mango.model";
+import { MangoService } from "./mango.service";
 
 const createMango = async (req: Request, res: Response) => {
     try {
-        const data = await Mango.create(req.body);
+        const data = await MangoService.createMangoIntoDB(req.body);
         res.send({
             success: true,
             message: "mango created successfully",
@@ -24,7 +25,7 @@ const createMango = async (req: Request, res: Response) => {
 
 const getMango = async (req: Request, res: Response) => {
     try {
-        const data = await Mango.find();
+        const data = await Mango.find()
         res.send({
             success: true,
             message: "mango retrieved successfully",
@@ -44,7 +45,8 @@ const getMango = async (req: Request, res: Response) => {
 const getMangoById = async (req: Request, res: Response) => {
     try {
         const mangoId = req.params.mangoId;
-        const data = await Mango.findById(mangoId);
+        // const data = await Mango.findById(mangoId);
+        const data = await MangoService.getMangoByIdFromDB(mangoId);
         res.send({
             success: true,
             message: "mango retrieved successfully",
@@ -78,7 +80,7 @@ const updateMango = async (req: Request, res: Response) => {
                 success: false,
                 message: "Mango not found"
             });
-        }else{
+        } else {
             return res.send({
                 success: true,
                 message: "Mango updated successfully"
