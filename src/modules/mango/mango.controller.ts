@@ -44,7 +44,7 @@ const getMango = async (req: Request, res: Response) => {
 }
 const getMangoById = async (req: Request, res: Response) => {
     try {
-        const mangoId = req.params.mangoId;
+        const [mangoId] = req.params.mangoId;
         // const data = await Mango.findById(mangoId);
         const data = await MangoService.getMangoByIdFromDB(mangoId);
         res.send({
@@ -88,10 +88,9 @@ const updateMango = async (req: Request, res: Response) => {
         }
 
     } catch (error) {
-
         res.send({
             success: false,
-            message: "error",
+            message: "Error happend",
             error
         })
 
