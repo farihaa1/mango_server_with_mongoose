@@ -3,14 +3,15 @@ import { model, Schema } from "mongoose";
 const userSchema = new Schema<IUser>({
     name: {
         type: String,
-        required: true,
-        trim: true,
-        min: 3,
-        max: 12
+        // required: true,
+        // trim: true,
+        // min: 3,
+        // max: 12
     },
     email: {
         type: String,
         required: true,
+        // validator
         validate: {
             validator: function (email) {
                 const regex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
