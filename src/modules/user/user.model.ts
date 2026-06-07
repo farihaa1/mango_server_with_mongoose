@@ -3,10 +3,10 @@ import { model, Schema } from "mongoose";
 const userSchema = new Schema<IUser>({
     name: {
         type: String,
-        // required: true,
-        // trim: true,
-        // min: 3,
-        // max: 12
+        required: true,
+        trim: true,
+        min: 3,
+        max: 12
     },
     email: {
         type: String,
