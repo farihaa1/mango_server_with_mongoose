@@ -1,5 +1,7 @@
+import { Request, Response } from "express";
 import { IUser } from "./user.interface";
 import User from "./user.model";
+import AppError from "../../error/appError";
 
 const bcrypt = require('bcrypt');
 
@@ -10,15 +12,24 @@ const registerUser = async (payload: IUser) => {
     return data;
 }
 const loginUser = async (payload: IUser) => {
-    payload.password = await bcrypt.hash(payload.password, 10);
-    const user = new User(payload);
-    const data = await user.save();
-    return data;
+    const isUserExist = await User.findOne({ email: payload.email })
+
+    if (!isUserExist) throw new AppError(404, "User not found")
+
+    const checkPassword = await bcrypt.compare(
+        payload.password,
+        isUserExist.password
+    );
+    if (!checkPassword) throw new AppError(403, "Password doesn't match");
+
+    return isUserExist;
+
 }
 
 
 export const userService = {
     registerUser,
+    loginUser
 }
 
 

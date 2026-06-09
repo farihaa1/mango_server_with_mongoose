@@ -23,10 +23,10 @@ const loginUser = async (req: Request, res: Response) => {
 
 
     const payload = req.body;
-    const data = await userService.registerUser(payload);
+    const data = await userService.loginUser(payload);
     res.send({
         success: true,
-        message: "user created successfully",
+        message: "user login successfully",
         data
     })
 
@@ -46,4 +46,4 @@ const getUser = async (req: Request, res: Response) => {
 
 }
 
-export { registerUser, getUser }
+export { registerUser, getUser ,loginUser}
