@@ -12,7 +12,7 @@ userRoute.post("/", validateRequest(userZodSchema.userCreateZodSchema), register
 
 userRoute.post("/", validateRequest(userZodSchema.userLoginZodSchema), loginUser);
 
-userRoute.get("/", auth(UserRole.Admin, UserRole.Customer), getUser);
+userRoute.get("/", auth([UserRole.Admin, UserRole.Customer]), getUser);
 
 
 export default userRoute

@@ -2,9 +2,8 @@ import { NextFunction, Request, Response } from "express"
 import AppError from "../error/appError";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import User from "../modules/user/user.model";
-import { UserRole } from "../modules/user/user.constrain";
 
-export const auth = (...role: UserRole[]) => {
+export const auth = (role: string[]) => {
     return async (req: Request, res: Response, next: NextFunction) => {
         const token = req.headers.authorization;
         if (!token) throw new AppError(401, "authorization failed")
@@ -15,6 +14,8 @@ export const auth = (...role: UserRole[]) => {
         if (!isUserExist) throw new AppError(404, "user not found")
 
         if (!role.includes(isVerified.role)) throw new AppError(401, "you can't get access")
+
+        req.user = isUserExist;
 
         next();
     }
