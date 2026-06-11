@@ -2,8 +2,8 @@ import { Request, Response } from "express";
 import { IUser } from "./user.interface";
 import User from "./user.model";
 import AppError from "../../error/appError";
-
-const bcrypt = require('bcrypt');
+import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
 
 const registerUser = async (payload: IUser) => {
     payload.password = await bcrypt.hash(payload.password, 10);
@@ -22,7 +22,13 @@ const loginUser = async (payload: IUser) => {
     );
     if (!checkPassword) throw new AppError(403, "Password doesn't match");
 
-    return isUserExist;
+    const jwtPayload = {
+        email: payload.email,
+        role: isUserExist.role,
+    }
+    const accessToken = jwt.sign(jwtPayload, "very secret", { expiresIn: "7d" })
+
+    return accessToken;
 
 }
 
