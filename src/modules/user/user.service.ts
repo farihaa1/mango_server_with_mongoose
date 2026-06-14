@@ -2,8 +2,9 @@ import { Request, Response } from "express";
 import { IUser } from "./user.interface";
 import User from "./user.model";
 import AppError from "../../error/appError";
-import jwt from "jsonwebtoken";
+import jwt, { SignOptions } from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import config from "../../config";
 
 const registerUser = async (payload: IUser) => {
     payload.password = await bcrypt.hash(payload.password, 10);
@@ -26,12 +27,18 @@ const loginUser = async (payload: IUser) => {
         email: payload.email,
         role: isUserExist.role,
     }
-    const accessToken = jwt.sign(jwtPayload, "very secret", { expiresIn: "7d" })
+    const accessToken = jwt.sign(jwtPayload, "very secret", { expiresIn: "7d" } as SignOptions)
+    const refreshToken = jwt.sign(jwtPayload, config.jwt.jwt_refresh_secret as string, { expiresIn: config.jwt.jwt_access_expires } as SignOptions)
 
     return accessToken;
 
 }
-const refreshToken = {};
+const refreshToken = async (refreshToken: string) => {
+    const verifyRefreshToken = jwt.verify(refreshToken, config.jwt.jwt_refresh_secret as string)
+
+
+
+}
 
 
 export const userService = {

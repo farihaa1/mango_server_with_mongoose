@@ -11,7 +11,7 @@ export default {
     jwt: {
         jwt_access_secret: process.env.JWT_ACCESS_SECRET,
         jwt_access_expires: process.env.JWT_ACCESS_EXPIRES,
-        jwt_rest_secret: process.env.JWT_REST_SECRET,
+        jwt_refresh_secret: process.env.JWT_REFRESH_SECRET,
         jwt_reset_expires: process.env.JWT_RESET_EXPIRES
     }
 };
