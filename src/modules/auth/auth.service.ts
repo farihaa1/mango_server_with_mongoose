@@ -1,15 +1,17 @@
+import config from "../../config"
 import AppError from "../../error/appError"
 import User from "../user/user.model"
 import bcrypt from "bcrypt"
 
 const changePassword = async (email: string, newPassword: string, oldPassword: string) => {
+
     const isUserExist = await User.findOne({ email })
     if (!isUserExist) throw new AppError(404, "user not found")
     const storedPassword = await isUserExist.password;
     const isMatchPassword = await bcrypt.compare(oldPassword, storedPassword);
     if (!isMatchPassword) throw new AppError(403, "password not matched");
 
-    isUserExist.password = await bcrypt.hash(newPassword, 10);
+    isUserExist.password = await bcrypt.hash(newPassword, config.password_salt_round!);
     isUserExist.save()
     return isUserExist;
 
@@ -29,7 +31,7 @@ const resetPassword = async (
 
     isUserExist.password = await bcrypt.hash(
         password,
-        10
+        config.password_salt_round!
     );
     await isUserExist.save();
 

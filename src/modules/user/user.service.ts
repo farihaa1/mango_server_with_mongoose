@@ -31,11 +31,13 @@ const loginUser = async (payload: IUser) => {
     return accessToken;
 
 }
+const refreshToken = {};
 
 
 export const userService = {
     registerUser,
-    loginUser
+    loginUser,
+    refreshToken
 }
 
 
